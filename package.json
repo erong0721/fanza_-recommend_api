@@ -4,6 +4,9 @@
   "main": "index.js",
   "repository": "https://github.com/erong0721/fanza_wrapper_api.git",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "engines": {
     "node": "16.x"
   },
