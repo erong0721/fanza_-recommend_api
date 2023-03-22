@@ -5,7 +5,7 @@ class RecommendController {
   async get() {
     const res = await new RecommendApi().execute()
     return {
-      row: res.result.items.map((item) => {
+      row: res?.result?.items?.map((item) => {
         return {
           title: item.title,
           review: item.review,
@@ -16,7 +16,7 @@ class RecommendController {
           sampleMovieURL: item.sampleMovieURL,
           prices: item.prices,
         }
-      })
+      }) || []
     }
   }
 }
