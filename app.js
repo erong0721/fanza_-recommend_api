@@ -15,4 +15,4 @@ app.get('/api/recommend', async (req, res) => {
   res.json(response)
 })
 
-app.listen(80)
+app.listen(process.env.API_PORT || 80)
