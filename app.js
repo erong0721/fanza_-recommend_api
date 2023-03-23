@@ -10,7 +10,7 @@ app.get('/', async (req, res) => {
   })
 })
 
-app.get('/api/recommend', async (req, res) => {
+app.get('/fanza_wrapper_api/recommend', async (req, res) => {
   const response = await new RecommendController().get()
   res.json(response)
 })
