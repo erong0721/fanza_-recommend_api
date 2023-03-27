@@ -1,7 +1,7 @@
 const PornstarApi = require('../apis/pornstarApi')
 const fs = require('fs')
 const connection = require('../libs/mysql.client')
-const OFFSET_TMP = './tmp/offset'
+const OFFSET_TMP = './tmp/offset.log'
 require('dotenv').config()
 
 const main = async () => {
