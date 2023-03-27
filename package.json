@@ -5,14 +5,21 @@
   "repository": "https://github.com/erong0721/fanza_wrapper_api.git",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "db-init": "db-migrate db:create fanza -e init",
+    "db-create": "db-migrate create",
+    "db-up": "db-migrate up",
+    "db-down": "db-migrate down"
   },
   "engines": {
     "node": "16.x"
   },
   "dependencies": {
     "axios": "^1.3.4",
+    "db-migrate": "^0.11.13",
+    "db-migrate-mysql": "^2.2.0",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mysql2": "^3.2.0"
   }
 }

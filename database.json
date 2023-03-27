@@ -1,0 +1,13 @@
+{
+  "init": {
+    "driver": "mysql",
+    "user": "root",
+    "password": ""
+  },
+  "dev": {
+    "driver": "mysql",
+    "user": "root",
+    "password": "",
+    "database": "fanza"
+  }
+}
