@@ -78,7 +78,7 @@ const main = async () => {
       console.log(result.serverStatus)
     }
     await con.end()
-    offset += 1
+    offset += 100
   }
 
   fs.writeFileSync(OFFSET_TMP, offset.toString(), 'utf-8')
