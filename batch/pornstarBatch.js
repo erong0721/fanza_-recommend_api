@@ -75,7 +75,6 @@ const main = async () => {
         actor.listURL?.rental || '',
       ]
       const [result] = await con.execute(sql, values)
-      console.log(result.serverStatus)
     }
     await con.end()
     offset += 100
