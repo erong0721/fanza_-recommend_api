@@ -35,7 +35,7 @@ FANZAの情報をWeb API経由でDBに格納。
 
 ### SetUpda
 
-database.json編集
+config/config.jsonの変更
 
 ```config/config.json
 {
