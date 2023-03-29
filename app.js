@@ -4,19 +4,37 @@ const {check, validationResult} = require('express-validator')
 require('dotenv').config()
 
 const RecommendController = require('./controllers/recommendController')
-const PornstarController = require('./controllers/PornstarController')
+const PornstarController = require('./controllers/pornstarController')
 
+/**
+ * ヘルスチェック.
+ */
 app.get('/', async (req, res) => {
   res.json({
     result: 'ok',
   })
 })
 
+/**
+ * レコメンドAPI.
+ */
 app.get('/fanza_wrapper_api/recommend', async (req, res) => {
-  const response = await new RecommendController().get()
-  res.json(response)
+  try {
+    const response = await new RecommendController().get()
+    res.json(response)
+  } catch (error) {
+    res.status(500).json(
+      {
+        status: 500,
+        message: error.message
+      }
+    )
+  }
 })
 
+/**
+ * AV女優取得API.
+ */
 app.get(
   '/fanza_wrapper_api/pornstar',
   check('name')
@@ -78,27 +96,39 @@ app.get(
   check('prefectures')
     .isLength({ max: 100 })
     .withMessage('max 100.'),
+  check('limit')
+    .isInt({ max: 100 })
+    .optional({ checkFalsy: true })
+    .withMessage('int format.'),
+  check('offset')
+    .isInt()
+    .optional({ checkFalsy: true })
+    .withMessage('int format.'),
 
   async (req, res) => {
     const errors = validationResult(req)
-    console.log(errors)
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       res.status(400).json(
         {
           status: 400,
-          messages: errors.errors.map((e) => {
-            return {
-              param: e.param,
-              message: e.message
-            }
-          })
+          messages: errors.errors.map((e) => `${e.param}: ${e.msg}`)
         }
       )
       return
     }
 
-    const response = await new PornstarController().get()
-    res.json(response)
+    try {
+      const response = await new PornstarController().get(req.query)
+      res.json(response)
+    } catch (error) {
+      console.error(error)
+      res.status(500).json(
+        {
+          status: 500,
+          message: error.message
+        }
+      )
+    }
   }
 )
 

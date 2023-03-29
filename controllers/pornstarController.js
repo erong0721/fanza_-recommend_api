@@ -1,20 +1,31 @@
-const RecommendApi = require('../apis/recommendApi')
+const models = require('../models')
 
 class PornstarController {
 
-  async get() {
-    const res = await new RecommendApi().execute()
+  async get(param = {}) {
+    const res = await models.Pornstar.select(param)
+
     return {
-      row: res?.result?.items?.map((item) => {
+      row: res.map((item) => {
         return {
-          title: item.title,
-          review: item.review,
-          URL: item.URL,
-          affiliateURL: item.affiliateURL,
-          imageURL: item.imageURL,
-          sampleImageURL: item.sampleImageURL,
-          sampleMovieURL: item.sampleMovieURL,
-          prices: item.prices,
+          id: item.id,
+          name: item.name,
+          ruby: item.ruby,
+          bust: item.bust,
+          cup: item.cup,
+          waist: item.waist,
+          hip: item.hip,
+          height: item.height,
+          birthday: item.birthday,
+          blood_type: item.blood_type,
+          hobby: item.hobby,
+          prefectures: item.prefectures,
+          imageURL_small: item.imageURL_small,
+          imageURL_large: item.imageURL_large,
+          listURL_digital: item.listURL_digital,
+          listURL_monthly_premium: item.listURL_monthly_premium,
+          listURL_mono: item.listURL_mono,
+          listURL_rental: item.listURL_rental,
         }
       }) || []
     }

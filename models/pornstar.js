@@ -1,7 +1,7 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model, Op } = require('sequelize')
+const DEFAULT_LIMIT = 20
+const DEFAULT_OFFSET = 0
+
 module.exports = (sequelize, DataTypes) => {
   class Pornstar extends Model {
     /**
@@ -14,14 +14,74 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async select(param = {}) {
-      try{
-        const data = await this.findAll()
-        return(data)
+      const option = {}
+      if (param.name) {
+        option.name = {
+          [Op.like]: `%${param.name}%`,
+        }
+        option.ruby = {
+          [Op.like]: `%${param.name}%`,
+        }
       }
-      catch(e){
-        console.error(e)
-        return(false)
+      if (param.bust_low) {
+        option.bust = {
+          [Op.gte]: param.bust_low,
+        }
       }
+      if (param.bust_high) {
+        option.bust = {
+          ...(option.bust || {}),
+          [Op.lte]: param.bust_high,
+        }
+      }
+      if (param.cup) {
+        option.cup = {
+          [Op.eq]: param.cup,
+        }
+      }
+      if (param.waist_low) {
+        option.waist = {
+          [Op.gte]: param.waist_low,
+        }
+      }
+      if (param.waist_high) {
+        option.waist = {
+          ...(option.waist || {}),
+          [Op.lte]: param.waist_high,
+        }
+      }
+      if (param.hip_low) {
+        option.hip = {
+          [Op.gte]: param.hip_low,
+        }
+      }
+      if (param.hip_high) {
+        option.hip = {
+          ...(option.hip || {}),
+          [Op.lte]: param.hip_high,
+        }
+      }
+      if (param.blood_type) {
+        option.blood_type = {
+          [Op.eq]: param.blood_type,
+        }
+      }
+      if (param.hobby) {
+        option.hobby = {
+          [Op.like]: `%${param.hobby}%`,
+        }
+      }
+      if (param.prefectures) {
+        option.prefectures = {
+          [Op.like]: `%${param.prefectures}%`,
+        }
+      }
+      const data = await this.findAll({
+        where: option,
+        limit: Number(param.limit) || DEFAULT_LIMIT,
+        offset: Number(param.offset) || DEFAULT_OFFSET,
+      })
+      return data
     }
 
   }
@@ -139,6 +199,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Pornstar',
     timestamps: false,
-  });
-  return Pornstar;
-};
+  })
+  return Pornstar
+}
