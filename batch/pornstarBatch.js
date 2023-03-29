@@ -31,7 +31,7 @@ const main = async () => {
     const con = await connection()
     for await (actor of res.result.actress) {
       const sql = `
-        INSERT INTO pornstar
+        INSERT INTO pornstars
           (id, name, ruby, bust, cup, waist, hip, height, birthday, blood_type, hobby, prefectures, imageURL_small, imageURL_large, listURL_digital, listURL_monthly_premium, listURL_mono, listURL_rental)
         VALUES
           (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

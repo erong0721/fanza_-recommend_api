@@ -6,10 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "db-init": "db-migrate db:create fanza -e init",
-    "db-create": "db-migrate create",
-    "db-up": "db-migrate up",
-    "db-down": "db-migrate down"
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo"
   },
   "engines": {
     "node": "16.x"
@@ -20,6 +19,8 @@
     "db-migrate-mysql": "^2.2.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mysql2": "^3.2.0"
+    "express-validator": "^6.15.0",
+    "mysql2": "^3.2.0",
+    "sequelize": "^6.30.0"
   }
 }

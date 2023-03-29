@@ -37,31 +37,42 @@ FANZAの情報をWeb API経由でDBに格納。
 
 database.json編集
 
-```database.json
+```config/config.json
 {
-  "init": {
-    "driver": "mysql",
-    "host": "DBホスト名",
-    "user": "DBユーザー",
+  "development": {
+    "username": "DBユーザー",
     "password": "DBパスワード"
+    "database": "fanza",
+    "host": "DBホスト名",
+    "dialect": "mysql",
+    "logging": false
   },
-  "dev": {
-    "driver": "mysql",
-    "host": "DBホスト名",
-    "user": "DBユーザー",
+  "test": {
+    "username": "DBユーザー",
     "password": "DBパスワード"
-    "database": "fanza"
+    "database": "fanza",
+    "host": "DBホスト名",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "production": {
+    "username": "DBユーザー",
+    "password": "DBパスワード"
+    "database": "fanza",
+    "host": "DBホスト名",
+    "dialect": "mysql",
+    "logging": false
   }
 }
 ```
 
-https://db-migrate.readthedocs.io/en/latest/
+https://sequelize.org/
 
 ```bash
 # DB作成
-yarn db-init
+yarn db:create
 # テーブル作成
-yarn db-up
+yarn db:migrate
 ```
 
 #### AV女優取り込みバッチ
