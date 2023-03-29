@@ -104,6 +104,13 @@ app.get(
     .isInt()
     .optional({ checkFalsy: true })
     .withMessage('int format.'),
+  check('order')
+    .isIn([
+      'name', 'bust', 'waist', 'hip', 'height', 'birthday', 'id',
+      '-name', '-bust', '-waist', '-hip', '-height', '-birthday', '-id'
+    ])
+    .optional({ checkFalsy: true })
+    .withMessage('sort value.'),
 
   async (req, res) => {
     const errors = validationResult(req)
