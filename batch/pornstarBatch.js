@@ -1,7 +1,7 @@
 const PornstarApi = require('../apis/pornstarApi')
 const fs = require('fs')
 const connection = require('../libs/mysql.client')
-const OFFSET_TMP = './tmp/offset.log'
+const OFFSET_TMP = './tmp/pornstarBatchOffset.log'
 require('dotenv').config()
 
 const main = async () => {
@@ -85,4 +85,4 @@ const main = async () => {
 }
 
 
-main();
+main()

@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const RecommendController = require('./controllers/recommendController')
 const PornstarController = require('./controllers/pornstarController')
-
+const SnsController = require('./controllers/snsController')
 /**
  * ヘルスチェック.
  */
@@ -126,6 +126,55 @@ app.get(
 
     try {
       const response = await new PornstarController().get(req.query)
+      res.json(response)
+    } catch (error) {
+      console.error(error)
+      res.status(500).json(
+        {
+          status: 500,
+          message: error.message
+        }
+      )
+    }
+  }
+)
+
+/**
+ * AV女優SNS取得API.
+ */
+app.get(
+  '/fanza_wrapper_api/pornstar/sns',
+  check('name')
+    .isLength({ max: 100 })
+    .withMessage('max 100.'),
+  check('type')
+    .isIn([
+      'instagram', 'twitter'
+    ])
+    .optional({ checkFalsy: true })
+    .withMessage('instagram, twitter value.'),
+  check('order')
+    .isIn([
+      'name', 'id',
+      '-name', '-id'
+    ])
+    .optional({ checkFalsy: true })
+    .withMessage('sort value.'),
+
+  async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      res.status(400).json(
+        {
+          status: 400,
+          messages: errors.errors.map((e) => `${e.param}: ${e.msg}`)
+        }
+      )
+      return
+    }
+
+    try {
+      const response = await new SnsController().get(req.query)
       res.json(response)
     } catch (error) {
       console.error(error)
