@@ -1,5 +1,4 @@
 const RecommendApi = require('../apis/recommendApi')
-const {check, validationResult} = require('express-validator')
 
 class PornstarController {
 

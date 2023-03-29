@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { check } = require('express-validator')
+const {check, validationResult} = require('express-validator')
 require('dotenv').config()
 
 const RecommendController = require('./controllers/recommendController')
@@ -21,51 +21,82 @@ app.get(
   '/fanza_wrapper_api/pornstar',
   check('name')
     .isLength({ max: 100 })
-    .withMessage('name is max 100.'),
+    .withMessage('max 100.'),
   check('bust_low')
     .isNumeric()
-    .withMessage('bust_low is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('bust_high')
     .isNumeric()
-    .withMessage('bust_high is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('cup')
     .isAlpha()
-    .withMessage('cup is alpha.'),
+    .optional({ checkFalsy: true })
+    .withMessage('alpha format.'),
   check('waist_low')
     .isNumeric()
-    .withMessage('waist_low is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('waist_high')
     .isNumeric()
-    .withMessage('waist_high is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('hip_low')
     .isNumeric()
-    .withMessage('hip_low is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('hip_high')
     .isNumeric()
-    .withMessage('hip_high is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('height_low')
     .isNumeric()
-    .withMessage('height_low is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('height_high')
     .isNumeric()
-    .withMessage('height_high is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('age_low')
     .isNumeric()
-    .withMessage('age_low is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('age_high')
     .isNumeric()
-    .withMessage('age_high is number.'),
+    .optional({ checkFalsy: true })
+    .withMessage('numeric format.'),
   check('blood_type')
     .isIn([
       'A', 'B', 'O', 'AB'
     ])
-    .withMessage('blood_type is A,B,O,AB.'),
+    .optional({ checkFalsy: true })
+    .withMessage('A, B, O, AB value.'),
   check('hobby')
     .isLength({ max: 100 })
-    .withMessage('hobby is max 100.'),
-
+    .withMessage('max 100.'),
+  check('prefectures')
+    .isLength({ max: 100 })
+    .withMessage('max 100.'),
 
   async (req, res) => {
+    const errors = validationResult(req)
+    console.log(errors)
+    if(!errors.isEmpty()) {
+      res.status(400).json(
+        {
+          status: 400,
+          messages: errors.errors.map((e) => {
+            return {
+              param: e.param,
+              message: e.message
+            }
+          })
+        }
+      )
+      return
+    }
+
     const response = await new PornstarController().get()
     res.json(response)
   }
