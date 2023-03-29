@@ -16,11 +16,13 @@ module.exports = (sequelize, DataTypes) => {
     static async select(param = {}) {
       const option = {}
       if (param.name) {
-        option.name = {
-          [Op.like]: `%${param.name}%`,
-        }
-        option.ruby = {
-          [Op.like]: `%${param.name}%`,
+        option[Op.or] = {
+          name: {
+            [Op.like]: `%${param.name}%`,
+          },
+          ruby: {
+            [Op.like]: `%${param.name}%`,
+          },
         }
       }
       if (param.bust_low) {
@@ -76,7 +78,35 @@ module.exports = (sequelize, DataTypes) => {
           [Op.like]: `%${param.prefectures}%`,
         }
       }
+      if (param.age_low) {
+        option.age_low = sequelize.literal(`YEAR(CURRENT_DATE()) - YEAR(STR_TO_DATE(birthday, '%Y-%m-%d')) >= ${param.age_low}`)
+      }
+      if (param.age_high) {
+        option.age_high = sequelize.literal(`YEAR(CURRENT_DATE()) - YEAR(STR_TO_DATE(birthday, '%Y-%m-%d')) <= ${param.age_high}`)
+      }
+
       const data = await this.findAll({
+        attributes: [
+          'id',
+          'name',
+          'ruby',
+          'bust',
+          'cup',
+          'waist',
+          'hip',
+          'height',
+          'birthday',
+          'blood_type',
+          'hobby',
+          'prefectures',
+          'imageURL_small',
+          'imageURL_large',
+          'listURL_digital',
+          'listURL_monthly_premium',
+          'listURL_mono',
+          'listURL_rental',
+          [sequelize.literal(`YEAR(CURRENT_DATE()) - YEAR(STR_TO_DATE(birthday, '%Y-%m-%d'))`), 'age'],
+        ],
         where: option,
         limit: Number(param.limit) || DEFAULT_LIMIT,
         offset: Number(param.offset) || DEFAULT_OFFSET,

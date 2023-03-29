@@ -17,6 +17,7 @@ class PornstarController {
           hip: item.hip,
           height: item.height,
           birthday: item.birthday,
+          age: item.get('age'),
           blood_type: item.blood_type,
           hobby: item.hobby,
           prefectures: item.prefectures,
