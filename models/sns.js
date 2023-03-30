@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
         [Op.like]: `%${param.name}%`,
       }
     }
+    if (param.type) {
+      option.type = {
+        [Op.eq]: param.type,
+      }
+    }
     return option
   }
 
