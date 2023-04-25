@@ -10,7 +10,7 @@ class RecommendApi {
       site: 'FANZA',
       service: 'digital',
       floor: 'videoa',
-      hits: 5,
+      hits: 10,
       output: 'json',
     }
   }
